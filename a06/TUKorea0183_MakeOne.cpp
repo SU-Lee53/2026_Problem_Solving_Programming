@@ -11,12 +11,10 @@
 //
 //
 // Input
-//
 // 첫째 줄에 1보다 크거나 같고, 10^6보다 작거나 같은 정수 N이 주어진다.
 //
 //
 // Output
-//
 // 첫째 줄에 연산을 하는 횟수의 최솟값을 출력한다.
 
 #include <iostream>
@@ -28,18 +26,16 @@ int main()
 {
     long long N; cin >> N;
 
-    vector<long long> T(N+1, 0);
+    vector<long long> dp(N+1, 0);
     for (long long i = 2; i < N + 1; ++i) {
-        T[i] = T[i-1] + 1;
-
-        if (T[i-1] % 2 == 0) {
-            T[i] = min(T[i], T[i / 2] + 1);
-        }
-        if (T[i-1] % 3 == 0) {
-            T[i] = min(T[i], T[i / 3] + 1);
+        dp[i] = dp[i-1] + 1;
+        if (i % 2 == 0) {
+            dp[i] = min(dp[i/2]+1, dp[i]);
         }
 
+        if (i % 3 == 0) {
+            dp[i] = min(dp[i/3]+1, dp[i]);
+        }
     }
-
-    cout << T[N];
+    cout << dp[N];
 }

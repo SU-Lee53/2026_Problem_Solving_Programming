@@ -1,43 +1,61 @@
-// 1로 만들기
-// http://210.93.60.51/problem/0183
+// 소수 회문(Palindrome)
+// http://210.93.60.51/problem/0001
 // Description
+// 주어진 정수와 그 정수를 reverse한 정수가 서로 같으면 그 정수는 회문(Palindrome)이라고 합니다..
+// 예를 들어 79197 및 324423은 Palindrome입니다.
 //
-// 정수 X에 사용할 수 있는 연산은 다음과 같이 세 가지 이다.
+// 정수 N(1 ≤ N ≤ 1000000)이 하나 주어지고,  M이 소수(prime number)이고 Palindrome이되는 가장 작은 정수M (M ≥ N)을 찾습니다.
 //
-// X가 3으로 나누어 떨어지면, 3으로 나눈다.
-// X가 2로 나누어 떨어지면, 2로 나눈다.
-// 1을 뺀다.
-// 정수 N이 주어졌을 때, 위와 같은 연산 세 개를 적절히 사용해서 1을 만들려고 한다. 연산을 사용하는 횟수의 최솟값을 출력하시오.
+// M은 N보다 크거나 같습니다.
+//
+// M이 소수(prime number)이므로 M은 1과 M으로만 나누어 떨어져야 합니다.
+//
+// 예를 들어, N이 31이면 답 M은 101입니다.
 //
 //
 // Input
-// 첫째 줄에 1보다 크거나 같고, 10^6보다 작거나 같은 정수 N이 주어진다.
-//
+// 하나의 정수 N (1 ≤ N ≤ 1000000) 입력
 //
 // Output
-// 첫째 줄에 연산을 하는 횟수의 최솟값을 출력한다.
+// 출력은 N보다 크거나 같은 가장 작고 소수 Palindrome을 만족하는 정수 M 출력
+//
+// Sample Input 1
+// 31
+//
+// Sample Output 1
+// 101
 
 #include <iostream>
-#include <vector>
+#include <sstream>
+#include <string>
+#include <algorithm>
 
 using namespace std;
 
+bool IsPrime(int n)
+{
+    for (int i = 2; i < powf(n, 0.5) + 1; ++ i) {
+        if (n % i == 0) return false;
+    }
+    return true;
+}
+
 int main()
 {
-    long long N; cin >> N;
+    int N; cin >> N;
 
-    vector<long long> T(N+1, 0);
-    for (long long i = 2; i < N + 1; ++i) {
-        T[i] = T[i-1] + 1;
+    auto R = [](int n) {
+        string s = to_string(n);
+        reverse(s.begin(), s.end());
+        return stoi(s);
+    };
 
-        if (T[i-1] % 2 == 0) {
-            T[i] = min(T[i], T[i / 2] + 1);
+    while (true) {
+        if (N == R(N) && IsPrime(N)) {
+            cout << N << endl;
+            break;
         }
-        if (T[i-1] % 3 == 0) {
-            T[i] = min(T[i], T[i / 3] + 1);
-        }
-
+        ++N;
     }
-
-    cout << T[N];
 }
+
