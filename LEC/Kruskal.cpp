@@ -26,7 +26,7 @@ int FindParent(vector<int>& parent, int x)
     if (parent[x] != x)
         parent[x] = FindParent(parent, parent[x]);
 
-    return x;
+    return parent[x];
 }
 
 void UnionParent(vector<int>& parent, int& a, int& b)
